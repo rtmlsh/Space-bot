@@ -1,10 +1,13 @@
 import requests
 import os
+import pprint
 
 img_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
 path = '/Users/mac/Documents/GitHub/Space-bot/images/'
 spacex_api_url = 'https://api.spacexdata.com/v4/launches/latest'
+nasa_api_url = 'https://api.nasa.gov/planetary/apod'
 filename = 'hubble.jpeg'
+nasa_token = 'ZBsB0Y1t6U4PxTL1iL7nNlIYLqKzlsBWRzlZxZMw'
 
 def ensure_dir(path):
     directory = os.path.dirname(path)
@@ -31,7 +34,17 @@ def fetch_spacex_last_launch(spacex_api_url):
         get_image(url, path, filename)
 
 
+def fetch_nasa_day_photo(nasa_api_url, nasa_token):
+    payloads = {"api_key": nasa_token}
+    response = requests.get(nasa_api_url, params=payloads)
+    response.raise_for_status()
+    filename = 'nasa.jpg'
+    url = response.json()['url']
+    get_image(url, path, filename)
 
+
+
+fetch_nasa_day_photo(nasa_api_url, nasa_token)
 ensure_dir(path)
 get_image(img_url, path, filename)
 fetch_spacex_last_launch(spacex_api_url)
