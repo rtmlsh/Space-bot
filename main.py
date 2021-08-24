@@ -1,9 +1,9 @@
 import requests
 import os
-
+import pprint
 
 url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-path = '/Users/Алена/Documents/GitHub/Space-bot/images/'
+path = '/Users/mac/Documents/GitHub/Space-bot/images/'
 filename = 'hubble.jpeg'
 
 def ensure_dir(path):
@@ -24,3 +24,7 @@ ensure_dir(path)
 get_image(url, path, filename)
 
 
+url = 'https://api.spacexdata.com/v4/launches/latest'
+response = requests.get(url)
+response.raise_for_status()
+pprint.pprint(response.json()['links']['flickr']['original'])
