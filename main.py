@@ -3,14 +3,15 @@ import os
 from urllib.parse import urlparse
 import pprint
 
-img_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-path = '/Users/Алена/Documents/GitHub/Space-bot/images/'
+path = '/Users/mac/Documents/GitHub/Space-bot/images/'
 spacex_api_url = 'https://api.spacexdata.com/v4/launches/latest'
 nasa_api_url = 'https://api.nasa.gov/planetary/apod'
-filename = 'hubble.jpeg'
+nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY'
 nasa_token = 'ZBsB0Y1t6U4PxTL1iL7nNlIYLqKzlsBWRzlZxZMw'
+img_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
+filename = 'hubble.jpeg'
 
-# /Users/Алена/Documents/GitHub/Space-bot/main.py
+# /Users/Алена/Documents/GitHub/Space-bot/images/
 # /Users/mac/Documents/GitHub/Space-bot/images/
 
 def ensure_dir(path):
@@ -41,10 +42,21 @@ def fetch_nasa_day_photo(nasa_api_url, nasa_token):
     payloads = {"api_key": nasa_token, 'count': 7}
     response = requests.get(nasa_api_url, params=payloads)
     response.raise_for_status()
-    for i in range(10):
-        filename = f'nasa{i}.{file_extension(response.json()[i]["url"])}'
+    for i in range(7):
+        filename = f'nasa{i}{file_extension(response.json()[i]["url"])}'
         url = response.json()[i]['url']
         get_image(url, path, filename)
+
+
+def fetch_epic_photo():
+    response = requests.get(nasa_epic_api_url)
+    # response.raise_for_status()
+    date = response.json()[0]['date'].split()[0].replace('-', '/')
+    title = response.json()[0]['image']
+    url = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{title}.png'
+    print(url)
+    # filename = f'{title}.jpg'
+    # get_image(url, path, filename)
 
 
 def file_extension(img_url):
@@ -53,8 +65,11 @@ def file_extension(img_url):
     return image_extension
 
 
+fetch_epic_photo()
 
-ensure_dir(path)
-get_image(img_url, path, filename)
-fetch_spacex_last_launch(spacex_api_url)
-fetch_nasa_day_photo(nasa_api_url, nasa_token)
+
+# ensure_dir(path)
+# get_image(img_url, path, filename)
+# fetch_spacex_last_launch(spacex_api_url)
+# fetch_nasa_day_photo(nasa_api_url, nasa_token)
+# https://api.nasa.gov/EPIC/archive/natural/2019/05/30/png/epic_1b_20190530011359.png?api_key=DEMO_KEY
