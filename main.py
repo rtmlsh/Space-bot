@@ -37,25 +37,24 @@ def fetch_spacex_last_launch(spacex_api_url):
         get_image(url, path, filename)
 
 
-# def fetch_nasa_day_photo(nasa_api_url, nasa_token):
-#     payloads = {"api_key": nasa_token, 'date': '2021-08-24'}
-#     response = requests.get(nasa_api_url, params=payloads)
-#     response.raise_for_status()
-#     filename = 'nasa.jpg'
-#     url = response.json()['url']
-#     get_image(url, path, filename)
+def fetch_nasa_day_photo(nasa_api_url, nasa_token):
+    payloads = {"api_key": nasa_token, 'count': 7}
+    response = requests.get(nasa_api_url, params=payloads)
+    response.raise_for_status()
+    for i in range(10):
+        filename = f'nasa{i}.{file_extension(response.json()[i]["url"])}'
+        url = response.json()[i]['url']
+        get_image(url, path, filename)
+
 
 def file_extension(img_url):
     image_path = urlparse(img_url)
     image_extension = os.path.splitext(os.path.split(image_path.path)[-1])[-1]
-    print(image_extension)
+    return image_extension
 
 
-file_extension(img_url)
 
-
-#
-# ensure_dir(path)
-# get_image(img_url, path, filename)
-# fetch_spacex_last_launch(spacex_api_url)
-# fetch_nasa_day_photo(nasa_api_url, nasa_token)
+ensure_dir(path)
+get_image(img_url, path, filename)
+fetch_spacex_last_launch(spacex_api_url)
+fetch_nasa_day_photo(nasa_api_url, nasa_token)
