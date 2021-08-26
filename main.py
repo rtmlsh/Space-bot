@@ -1,9 +1,10 @@
 import requests
 import os
+import datetime
 from urllib.parse import urlparse
 import pprint
 
-path = '/Users/mac/Documents/GitHub/Space-bot/images/'
+path = '/Users/Алена/Documents/GitHub/Space-bot/images/'
 spacex_api_url = 'https://api.spacexdata.com/v4/launches/latest'
 nasa_api_url = 'https://api.nasa.gov/planetary/apod'
 nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY'
@@ -51,11 +52,17 @@ def fetch_nasa_day_photo(nasa_api_url, nasa_token):
 def fetch_epic_photo():
     response = requests.get(nasa_epic_api_url)
     # response.raise_for_status()
+    pprint.pprint(response.json())
+    # for i in range(len(response.json())):
+    #     date = datetime.datetime.fromisoformat(response.json()[i]['date']).strftime("%d/%m/%Y")
+    #     print(date)
+
+
     date = response.json()[0]['date'].split()[0].replace('-', '/')
     title = response.json()[0]['image']
-    url = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{title}.png'
-    print(url)
-    # filename = f'{title}.jpg'
+    url = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{title}.png?api_key={nasa_token}'
+
+    # filename = f'{title}.png'
     # get_image(url, path, filename)
 
 
@@ -65,11 +72,8 @@ def file_extension(img_url):
     return image_extension
 
 
-fetch_epic_photo()
-
-
 # ensure_dir(path)
 # get_image(img_url, path, filename)
 # fetch_spacex_last_launch(spacex_api_url)
 # fetch_nasa_day_photo(nasa_api_url, nasa_token)
-# https://api.nasa.gov/EPIC/archive/natural/2019/05/30/png/epic_1b_20190530011359.png?api_key=DEMO_KEY
+fetch_epic_photo()
