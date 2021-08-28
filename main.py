@@ -1,19 +1,10 @@
 import requests
 import os
 import datetime
+import argparse
 from urllib.parse import urlparse
-import pprint
+from dotenv import load_dotenv
 
-path = '/Users/Алена/Documents/GitHub/Space-bot/images/'
-spacex_api_url = 'https://api.spacexdata.com/v4/launches/latest'
-nasa_api_url = 'https://api.nasa.gov/planetary/apod'
-nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY'
-nasa_token = 'ZBsB0Y1t6U4PxTL1iL7nNlIYLqKzlsBWRzlZxZMw'
-img_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-filename = 'hubble.jpeg'
-
-# /Users/Алена/Documents/GitHub/Space-bot/images/
-# /Users/mac/Documents/GitHub/Space-bot/images/
 
 def ensure_dir(path):
     directory = os.path.dirname(path)
@@ -29,18 +20,24 @@ def get_image(url, path, filename):
         file.write(response.content)
 
 
+def fetch_hubble_photo(path):
+    filename = 'hubble.jpeg'
+    url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
+    get_image(url, path, filename)
+
+
 def fetch_spacex_last_launch(spacex_api_url):
     response = requests.get(spacex_api_url)
     response.raise_for_status()
-    spacex_images = response.json()['links']['flickr']['original']
-    for images_links in enumerate(spacex_images):
-        filename = f'spacex{images_links[0]}.jpg'
-        url = images_links[1]
+    spacex_images_links = response.json()['links']['flickr']['original']
+    for image_link in enumerate(spacex_images_links):
+        filename = f'spacex{image_link[0]}.jpg'
+        url = image_link[1]
         get_image(url, path, filename)
 
 
-def fetch_nasa_day_photo(nasa_api_url, nasa_token):
-    payloads = {"api_key": nasa_token, 'count': 7}
+def fetch_nasa_day_photo(nasa_api_url, token):
+    payloads = {"api_key": token, 'count': 7}
     response = requests.get(nasa_api_url, params=payloads)
     response.raise_for_status()
     for i in range(7):
@@ -53,9 +50,11 @@ def fetch_epic_photo():
     response = requests.get(nasa_epic_api_url)
     response.raise_for_status()
     for i in range(7):
-        date = datetime.datetime.fromisoformat(response.json()[i]['date']).strftime("%Y/%m/%d")
+        date = datetime.datetime.fromisoformat(response.json()[i]['date']).\
+            strftime("%Y/%m/%d")
         title = response.json()[i]['image']
-        url = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{title}.png?api_key=DEMO_KEY'
+        url = 'https://api.nasa.gov/EPIC/archive/natural/' \
+              f'{date}/png/{title}.png?api_key=DEMO_KEY'
         filename = f'{title}.png'
         get_image(url, path, filename)
 
@@ -66,8 +65,22 @@ def file_extension(img_url):
     return image_extension
 
 
-ensure_dir(path)
-get_image(img_url, path, filename)
-fetch_spacex_last_launch(spacex_api_url)
-fetch_nasa_day_photo(nasa_api_url, nasa_token)
-fetch_epic_photo()
+if __name__ == '__main__':
+    load_dotenv()
+    path = '/Users/mac/Documents/GitHub/Space-bot/images/'
+    spacex_api_url = 'https://api.spacexdata.com' \
+                     '/v4/launches/latest'
+    nasa_api_url = 'https://api.nasa.gov/planetary/apod'
+    nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
+                        'images?api_key=DEMO_KEY'
+    token = os.getenv('NASA_TOKEN')
+    parser = argparse.ArgumentParser(
+        description='Скрипт интегрируется с API NASA, SpaceX, '
+                    'скачивает картинки и затем публикует их в Телеграм'
+    )
+    parser.parse_args()
+    ensure_dir(path)
+    fetch_spacex_last_launch(spacex_api_url)
+    fetch_nasa_day_photo(nasa_api_url, token)
+    fetch_hubble_photo(path)
+    fetch_epic_photo()
