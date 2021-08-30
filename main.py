@@ -67,35 +67,34 @@ def file_extension(img_url):
     return image_extension
 
 
-def publish_on_channel(path):
+def publish_on_channel():
     while True:
         for root, dirs, files in os.walk(path):
             for filename in files:
                 time.sleep(10)
-                bot.send_document(chat_id=link, document=open(f'{path}{filename}', 'rb'))
+                bot.send_photo(chat_id=chat_id, photo=open(f'{path}{filename}', 'rb'))
 
 
 if __name__ == '__main__':
     load_dotenv()
-    path = "/Users/Алена/Documents/GitHub/Space-bot/images/"
+    path = "/Users/mac/Documents/GitHub/Space-bot/images/"
     spacex_api_url = 'https://api.spacexdata.com' \
                      '/v4/launches/latest'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
                         'images?api_key=DEMO_KEY'
-    token = os.getenv('NASA_TOKEN')
+    nasa_token = os.getenv('NASA_TOKEN')
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
     parser = argparse.ArgumentParser(
         description='Скрипт интегрируется с API NASA, SpaceX, '
                     'скачивает картинки и затем публикует их в Телеграм'
     )
-    teletoken = '1990592155:AAGdOSHY1lT8onINLFHry2NuQhTEvULiSg4'
-    chat_id = '418419481'
-    link = '@ziggystardustsphoto'
-    bot = telegram.Bot(token=teletoken)
+    bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
     ensure_dir(path)
     fetch_spacex_last_launch(spacex_api_url)
-    fetch_nasa_day_photo(nasa_api_url, token)
+    fetch_nasa_day_photo(nasa_api_url, nasa_token)
     fetch_hubble_photo(path)
     fetch_epic_photo()
-    publish_on_channel(path)
+    publish_on_channel()
