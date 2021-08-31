@@ -77,7 +77,7 @@ def publish_on_channel():
 
 if __name__ == '__main__':
     load_dotenv()
-    path = "C:/Users/Алена/Documents/GitHub/Space-bot/"
+    path = "C:/Users/Алена/Documents/GitHub/Space-bot/images/"
     spacex_api_url = 'https://api.spacexdata.com' \
                      '/v4/launches/latest'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
