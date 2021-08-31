@@ -28,7 +28,7 @@ def fetch_hubble_photo(path):
     get_image(url, path, filename)
 
 
-def fetch_spacex_last_launch(spacex_api_url):
+def fetch_spacex_last_launch():
     response = requests.get(spacex_api_url)
     response.raise_for_status()
     spacex_images_links = response.json()['links']['flickr']['original']
@@ -38,8 +38,8 @@ def fetch_spacex_last_launch(spacex_api_url):
         get_image(url, path, filename)
 
 
-def fetch_nasa_day_photo(nasa_api_url, token):
-    payloads = {"api_key": token, 'count': 7}
+def fetch_nasa_day_photo():
+    payloads = {"api_key": nasa_token, 'count': 7}
     response = requests.get(nasa_api_url, params=payloads)
     response.raise_for_status()
     for i in range(7):
@@ -77,7 +77,7 @@ def publish_on_channel():
 
 if __name__ == '__main__':
     load_dotenv()
-    path = "/Users/mac/Documents/GitHub/Space-bot/images/"
+    path = "C:/Users/Алена/Documents/GitHub/Space-bot/"
     spacex_api_url = 'https://api.spacexdata.com' \
                      '/v4/launches/latest'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
@@ -93,8 +93,8 @@ if __name__ == '__main__':
     bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
     ensure_dir(path)
-    fetch_spacex_last_launch(spacex_api_url)
-    fetch_nasa_day_photo(nasa_api_url, nasa_token)
-    fetch_hubble_photo(path)
+    fetch_spacex_last_launch()
+    fetch_nasa_day_photo()
+    fetch_hubble_photo()
     fetch_epic_photo()
     publish_on_channel()
