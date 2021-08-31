@@ -11,6 +11,3 @@ def fetch_spacex_last_launch(spacex_api_url):
 
 
 
-
-
-
