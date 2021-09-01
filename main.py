@@ -21,7 +21,8 @@ def save_spacex_images(spacex_images_links):
 
 def save_nasa_day_photos(nasa_images_links):
     for nasa_link in nasa_images_links:
-        filename = f'nasa{nasa_images_links.index(nasa_link)}{file_extension(nasa_link)}'
+        filename = f'nasa{nasa_images_links.index(nasa_link)}' \
+                   f'{file_extension(nasa_link)}'
         url = nasa_link
         get_image(url, path, filename)
 
@@ -52,12 +53,15 @@ def publish_on_channel():
         for root, dirs, files in os.walk(path):
             for filename in files:
                 time.sleep(10)
-                bot.send_photo(chat_id=chat_id, photo=open(f'{path}{filename}', 'rb'))
+                bot.send_photo(
+                    chat_id=chat_id,
+                    photo=open(f'{path}{filename}', 'rb')
+                )
 
 
 if __name__ == '__main__':
     load_dotenv()
-    path = "/Users/mac/Documents/GitHub/Space-bot/images/"
+    path = 'C:/Users/Алена/Documents/GitHub/Space-bot/images/'
     spacex_api_url = 'https://api.spacexdata.com/v3/launches'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
