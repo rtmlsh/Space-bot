@@ -52,7 +52,7 @@ def publish_on_channel():
     while True:
         for root, dirs, files in os.walk(path):
             for filename in files:
-                time.sleep(10)
+                time.sleep(86400)
                 bot.send_photo(
                     chat_id=chat_id,
                     photo=open(f'{path}{filename}', 'rb')
