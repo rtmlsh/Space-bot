@@ -19,9 +19,8 @@ def save_spacex_images(spacex_images_links):
 
 
 def save_nasa_day_photos(nasa_images_links):
-    for nasa_link in nasa_images_links:
-        filename = f'nasa{nasa_images_links.index(nasa_link)}' \
-                   f'{file_extension(nasa_link)}'
+    for num, nasa_link in enumerate(nasa_images_links):
+        filename = f'nasa{num}{file_extension(nasa_link)}'
         url = nasa_link
         get_image(url, path, filename)
 
