@@ -6,11 +6,9 @@ from fetch_nasa import *
 from fetch_spacex import *
 
 
-
 def ensure_dir(path):
-    directory = os.path.dirname(path)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    if os.makedirs(path, exist_ok=False):
+        os.makedirs(path)
 
 
 def save_spacex_images(spacex_images_links):
@@ -56,7 +54,7 @@ def publish_on_channel():
 
 if __name__ == '__main__':
     load_dotenv()
-    path = 'Users/rtmlsh/Documents/GitHub/Space-bot/images/'
+    path = 'images/'
     spacex_api_url = 'https://api.spacexdata.com/v3/launches'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
