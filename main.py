@@ -6,6 +6,7 @@ from fetch_nasa import *
 from fetch_spacex import *
 
 
+
 def ensure_dir(path):
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
@@ -55,7 +56,7 @@ def publish_on_channel():
 
 if __name__ == '__main__':
     load_dotenv()
-    path = 'C:/Users/Алена/Documents/GitHub/Space-bot/images/'
+    path = 'Users/rtmlsh/Documents/GitHub/Space-bot/images/'
     spacex_api_url = 'https://api.spacexdata.com/v3/launches'
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
