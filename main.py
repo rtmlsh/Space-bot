@@ -12,9 +12,9 @@ def ensure_dir(path):
 
 
 def save_spacex_images(spacex_images_links):
-    for spacex_link in enumerate(spacex_images_links):
-        filename = f'spacex{spacex_link[0]}.jpg'
-        url = spacex_link[1]
+    for num, spacex_link in enumerate(spacex_images_links):
+        filename = f'spacex{num}.jpg'
+        url = spacex_link
         get_image(url, path, filename)
 
 
