@@ -15,24 +15,24 @@ def save_spacex_images(spacex_images_links):
     for num, spacex_link in enumerate(spacex_images_links):
         filename = f'spacex{num}.jpg'
         url = spacex_link
-        get_image(url, path, filename)
+        save_image(url, path, filename)
 
 
 def save_nasa_day_photos(nasa_images_links):
     for num, nasa_link in enumerate(nasa_images_links):
         filename = f'nasa{num}{file_extension(nasa_link)}'
         url = nasa_link
-        get_image(url, path, filename)
+        save_image(url, path, filename)
 
 
 def save_epic_photos(epic_photo_links):
     for epic_title, epic_link in epic_photo_links.items():
-        url = epic_link
         filename = f'{epic_title}.png'
-        get_image(url, path, filename)
+        url = epic_link
+        save_image(url, path, filename)
 
 
-def get_image(url, path, filename):
+def save_image(url, path, filename):
     image_path = f'{path}{filename}'
     response = requests.get(url)
     response.raise_for_status()
@@ -67,11 +67,11 @@ if __name__ == '__main__':
     )
     bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
-    ensure_dir(path)
-    spacex_images_links = fetch_spacex_last_launch(spacex_api_url)
+    # ensure_dir(path)
+    spacex_images_links = fetch_spacex_launch(spacex_api_url)
     save_spacex_images(spacex_images_links)
-    nasa_images_links = fetch_nasa_day_photo(nasa_token, nasa_api_url)
-    save_nasa_day_photos(nasa_images_links)
-    epic_photo_links = fetch_epic_photo(nasa_epic_api_url)
-    save_epic_photos(epic_photo_links)
-    publish_on_channel()
+    # nasa_images_links = fetch_nasa_day_photo(nasa_token, nasa_api_url)
+    # save_nasa_day_photos(nasa_images_links)
+    # epic_photo_links = fetch_epic_photo(nasa_epic_api_url)
+    # save_epic_photos(epic_photo_links)
+    # publish_on_channel()
