@@ -54,10 +54,6 @@ def publish_on_channel():
 if __name__ == '__main__':
     load_dotenv()
     path = 'images/'
-    spacex_api_url = 'https://api.spacexdata.com/v3/launches'
-    nasa_api_url = 'https://api.nasa.gov/planetary/apod'
-    nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/' \
-                        'images?api_key=DEMO_KEY'
     nasa_token = os.getenv('NASA_TOKEN')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     chat_id = os.getenv('CHAT_ID')
@@ -67,11 +63,11 @@ if __name__ == '__main__':
     )
     bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
-    # ensure_dir(path)
-    spacex_images_links = fetch_spacex_launch(spacex_api_url)
+    ensure_dir(path)
+    spacex_images_links = fetch_spacex_launch()
     save_spacex_images(spacex_images_links)
-    # nasa_images_links = fetch_nasa_day_photo(nasa_token, nasa_api_url)
-    # save_nasa_day_photos(nasa_images_links)
-    # epic_photo_links = fetch_epic_photo(nasa_epic_api_url)
-    # save_epic_photos(epic_photo_links)
-    # publish_on_channel()
+    nasa_images_links = fetch_nasa_day_photo(nasa_token)
+    save_nasa_day_photos(nasa_images_links)
+    epic_photo_links = fetch_epic_photo(nasa_token)
+    save_epic_photos(epic_photo_links)
+    publish_on_channel()
