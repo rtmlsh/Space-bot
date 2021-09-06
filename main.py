@@ -1,9 +1,11 @@
 import argparse
 import time
+import os
 import telegram
 from dotenv import load_dotenv
-from fetch_nasa import *
-from fetch_spacex import *
+from fetch_nasa import fetch_nasa_day_photo, fetch_epic_photo,\
+    save_nasa_day_photos, save_epic_photos
+from fetch_spacex import fetch_spacex_launch, save_spacex_images
 
 
 def ensure_dir(path):
