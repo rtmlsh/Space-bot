@@ -2,6 +2,7 @@ import requests
 import os
 import datetime
 from urllib.parse import urlparse
+from fetch_image import save_image
 
 
 def fetch_nasa_day_photo(nasa_token):
@@ -34,3 +35,17 @@ def file_extension(img_url):
     image_path = urlparse(img_url)
     image_extension = os.path.splitext(os.path.split(image_path.path)[-1])[-1]
     return image_extension
+
+
+def save_nasa_day_photos(nasa_images_links, path='images/'):
+    for num, nasa_link in enumerate(nasa_images_links):
+        filename = f'nasa{num}{file_extension(nasa_link)}'
+        url = nasa_link
+        save_image(url, path, filename)
+
+
+def save_epic_photos(epic_photo_links, path='images/'):
+    for epic_title, epic_link in epic_photo_links.items():
+        filename = f'{epic_title}.png'
+        url = epic_link
+        save_image(url, path, filename)

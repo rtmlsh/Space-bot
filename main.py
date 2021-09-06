@@ -11,35 +11,6 @@ def ensure_dir(path):
         os.makedirs(path)
 
 
-def save_spacex_images(spacex_images_links):
-    for num, spacex_link in enumerate(spacex_images_links):
-        filename = f'spacex{num}.jpg'
-        url = spacex_link
-        save_image(url, path, filename)
-
-
-def save_nasa_day_photos(nasa_images_links):
-    for num, nasa_link in enumerate(nasa_images_links):
-        filename = f'nasa{num}{file_extension(nasa_link)}'
-        url = nasa_link
-        save_image(url, path, filename)
-
-
-def save_epic_photos(epic_photo_links):
-    for epic_title, epic_link in epic_photo_links.items():
-        filename = f'{epic_title}.png'
-        url = epic_link
-        save_image(url, path, filename)
-
-
-def save_image(url, path, filename):
-    image_path = f'{path}{filename}'
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(image_path, 'wb') as file:
-        file.write(response.content)
-
-
 def publish_on_channel():
     while True:
         for root, dirs, files in os.walk(path):
