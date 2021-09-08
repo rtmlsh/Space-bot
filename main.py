@@ -18,10 +18,8 @@ def publish_on_channel():
         for root, dirs, files in os.walk(path):
             for filename in files:
                 time.sleep(86400)
-                bot.send_photo(
-                    chat_id=chat_id,
-                    photo=open(f'{path}{filename}', 'rb')
-                )
+                with open(f'{path}{filename}', 'rb') as file:
+                    bot.send_photo(chat_id=chat_id, photo=file)
 
 
 if __name__ == '__main__':
@@ -37,10 +35,7 @@ if __name__ == '__main__':
     bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
     ensure_dir(path)
-    spacex_images_links = fetch_spacex_launch()
-    save_spacex_images(spacex_images_links)
-    nasa_images_links = fetch_nasa_day_photo(nasa_token)
-    save_nasa_day_photos(nasa_images_links)
-    epic_photo_links = fetch_epic_photo(nasa_token)
-    save_epic_photos(epic_photo_links)
+    save_spacex_images(spacex_images_links=fetch_spacex_launch())
+    save_nasa_day_photos(nasa_images_links=fetch_nasa_day_photo(nasa_token))
+    save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token))
     publish_on_channel()

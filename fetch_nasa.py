@@ -26,7 +26,8 @@ def fetch_epic_photo(nasa_token):
         date = datetime.datetime.fromisoformat(response.json()[i]['date']).\
             strftime('%Y/%m/%d')
         title = response.json()[i]['image']
-        link = f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{title}.png'
+        link = 'https://api.nasa.gov/EPIC/archive/natural/' \
+               f'{date}/png/{title}.png'
         epic_photo_links[title] = requests.get(link, params=payloads).url
     return epic_photo_links
 
