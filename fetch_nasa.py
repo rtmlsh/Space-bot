@@ -33,7 +33,7 @@ def fetch_epic_photo(nasa_token, number_images):
     return epic_photo_links
 
 
-def file_extension(img_url):
+def get_file_extension(img_url):
     image_path = urlparse(img_url)
     image_extension = os.path.splitext(os.path.split(image_path.path)[-1])[-1]
     return image_extension
@@ -41,7 +41,7 @@ def file_extension(img_url):
 
 def save_nasa_day_photos(nasa_images_links, path='images/'):
     for num, nasa_link in enumerate(nasa_images_links):
-        filename = f'nasa{num}{file_extension(nasa_link)}'
+        filename = f'nasa{num}{get_file_extension(nasa_link)}'
         save_image(nasa_link, path, filename)
 
 
