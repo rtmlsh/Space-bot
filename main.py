@@ -9,8 +9,7 @@ from fetch_spacex import fetch_spacex_launch, save_spacex_images
 
 
 def ensure_dir(path):
-    if os.makedirs(path, exist_ok=False):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=False)
 
 
 def publish_on_channel():
@@ -33,10 +32,9 @@ if __name__ == '__main__':
                     'скачивает картинки и затем публикует их в Телеграм'
     )
     bot = telegram.Bot(token=telegram_token)
-    print(fetch_epic_photo(nasa_token))
-#     parser.parse_args()
-#     ensure_dir(path)
-#     save_spacex_images(spacex_images_links=fetch_spacex_launch())
-#     save_nasa_day_photos(nasa_images_links=fetch_nasa_day_photo(nasa_token))
-#     save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token))
-#     publish_on_channel()
+    parser.parse_args()
+    ensure_dir(path)
+    save_spacex_images(spacex_images_links=fetch_spacex_launch())
+    save_nasa_day_photos(nasa_images_links=fetch_nasa_day_photo(nasa_token))
+    save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token))
+    publish_on_channel()
