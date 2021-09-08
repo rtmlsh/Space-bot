@@ -7,8 +7,8 @@ from fetch_image import save_image
 
 def fetch_nasa_day_photo(nasa_token, number_images):
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
-    payloads = {'api_key': nasa_token, 'count': 7}
-    response = requests.get(nasa_api_url, params=payloads)
+    payload = {'api_key': nasa_token, 'count': 7}
+    response = requests.get(nasa_api_url, params=payload)
     response.raise_for_status()
     nasa_images_links = []
     for num in range(number_images):
@@ -18,8 +18,8 @@ def fetch_nasa_day_photo(nasa_token, number_images):
 
 def fetch_epic_photo(nasa_token, number_images):
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images'
-    payloads = {'api_key': nasa_token}
-    response = requests.get(nasa_epic_api_url, params=payloads)
+    payload = {'api_key': nasa_token}
+    response = requests.get(nasa_epic_api_url, params=payload)
     response.raise_for_status()
     epic_api_json = response.json()
     epic_photo_links = {}
@@ -29,7 +29,7 @@ def fetch_epic_photo(nasa_token, number_images):
         title = epic_api_json[num]['image']
         link = 'https://api.nasa.gov/EPIC/archive/natural/' \
                f'{date}/png/{title}.png'
-        epic_photo_links[title] = requests.get(link, params=payloads).url
+        epic_photo_links[title] = requests.get(link, params=payload).url
     return epic_photo_links
 
 
