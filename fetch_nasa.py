@@ -41,12 +41,13 @@ def file_extension(img_url):
 def save_nasa_day_photos(nasa_images_links, path='images/'):
     for num, nasa_link in enumerate(nasa_images_links):
         filename = f'nasa{num}{file_extension(nasa_link)}'
-        url = nasa_link
-        save_image(url, path, filename)
+        save_image(nasa_link, path, filename)
 
 
 def save_epic_photos(epic_photo_links, path='images/'):
     for epic_title, epic_link in epic_photo_links.items():
         filename = f'{epic_title}.png'
-        url = epic_link
-        save_image(url, path, filename)
+        save_image(epic_link, path, filename)
+
+
+

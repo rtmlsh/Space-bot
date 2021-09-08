@@ -14,5 +14,4 @@ def fetch_spacex_launch(launch_year=2018):
 def save_spacex_images(spacex_images_links, path='images/'):
     for num, spacex_link in enumerate(spacex_images_links):
         filename = f'spacex{num}.jpg'
-        url = spacex_link
-        save_image(url, path, filename)
+        save_image(spacex_link, path, filename)
