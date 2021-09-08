@@ -5,27 +5,27 @@ from urllib.parse import urlparse
 from fetch_image import save_image
 
 
-def fetch_nasa_day_photo(nasa_token):
+def fetch_nasa_day_photo(nasa_token, number_images):
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     payloads = {'api_key': nasa_token, 'count': 7}
     response = requests.get(nasa_api_url, params=payloads)
     response.raise_for_status()
     nasa_images_links = []
-    for i in range(6):
-        nasa_images_links.append(response.json()[i]["url"])
+    for num in range(number_images):
+        nasa_images_links.append(response.json()[num]["url"])
     return nasa_images_links
 
 
-def fetch_epic_photo(nasa_token):
+def fetch_epic_photo(nasa_token, number_images):
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images'
     payloads = {'api_key': nasa_token}
     response = requests.get(nasa_epic_api_url, params=payloads)
     response.raise_for_status()
     epic_photo_links = {}
-    for i in range(6):
-        date = datetime.datetime.fromisoformat(response.json()[i]['date']).\
+    for num in range(number_images):
+        date = datetime.datetime.fromisoformat(response.json()[num]['date']).\
             strftime('%Y/%m/%d')
-        title = response.json()[i]['image']
+        title = response.json()[num]['image']
         link = 'https://api.nasa.gov/EPIC/archive/natural/' \
                f'{date}/png/{title}.png'
         epic_photo_links[title] = requests.get(link, params=payloads).url
