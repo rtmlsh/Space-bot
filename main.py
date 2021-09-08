@@ -12,11 +12,11 @@ def ensure_dir(path):
     os.makedirs(path, exist_ok=False)
 
 
-def publish_on_channel():
+def publish_on_channel(path):
     while True:
         for root, dirs, files in os.walk(path):
             for filename in files:
-                time.sleep(86400)
+                time.sleep(10)
                 with open(f'{path}{filename}', 'rb') as file:
                     bot.send_photo(chat_id=chat_id, photo=file)
 
@@ -41,4 +41,4 @@ if __name__ == '__main__':
     save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token, number_images=6))
 
     bot = telegram.Bot(token=telegram_token)
-    publish_on_channel()
+    publish_on_channel(path)
