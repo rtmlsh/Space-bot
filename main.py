@@ -22,19 +22,23 @@ def publish_on_channel():
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    path = 'images/'
-    nasa_token = os.getenv('NASA_TOKEN')
-    telegram_token = os.getenv('TELEGRAM_TOKEN')
-    chat_id = os.getenv('CHAT_ID')
     parser = argparse.ArgumentParser(
         description='Скрипт интегрируется с API NASA, SpaceX, '
                     'скачивает картинки и затем публикует их в Телеграм'
     )
-    bot = telegram.Bot(token=telegram_token)
     parser.parse_args()
+
+    path = 'images/'
     ensure_dir(path)
+
+    load_dotenv()
+    nasa_token = os.getenv('NASA_TOKEN')
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
+
     save_spacex_images(spacex_images_links=fetch_spacex_launch())
     save_nasa_day_photos(nasa_images_links=fetch_nasa_day_photo(nasa_token))
     save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token))
+
+    bot = telegram.Bot(token=telegram_token)
     publish_on_channel()
