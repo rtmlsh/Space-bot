@@ -3,7 +3,7 @@ import time
 import os
 import telegram
 from dotenv import load_dotenv
-from fetch_nasa import fetch_nasa_day_photo, fetch_epic_photo,\
+from fetch_nasa import fetch_nasa_day_photo, fetch_epic_photos,\
     save_nasa_day_photos, save_epic_photos
 from fetch_spacex import fetch_spacex_launch, save_spacex_images
 
@@ -37,8 +37,11 @@ if __name__ == '__main__':
     chat_id = os.getenv('CHAT_ID')
 
     save_spacex_images(spacex_images_links=fetch_spacex_launch())
-    save_nasa_day_photos(nasa_images_links=fetch_nasa_day_photo(nasa_token, number_images=6))
-    save_epic_photos(epic_photo_links=fetch_epic_photo(nasa_token, number_images=6))
-
+    save_nasa_day_photos(
+        nasa_images_links=fetch_nasa_day_photo(nasa_token, number_images=6)
+    )
+    save_epic_photos(
+        epic_photo_data=fetch_epic_photos(nasa_token, number_images=6)
+    )
     bot = telegram.Bot(token=telegram_token)
     publish_on_channel(path)
