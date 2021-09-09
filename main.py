@@ -43,5 +43,6 @@ if __name__ == '__main__':
     save_epic_photos(
         epic_photo_data=fetch_epic_photos(nasa_token, number_images=6)
     )
+
     bot = telegram.Bot(token=telegram_token)
     publish_on_channel(path)
