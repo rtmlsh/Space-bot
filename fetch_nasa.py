@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from fetch_image import save_image
 
 
-def fetch_nasa_day_photo(nasa_token, number_images):
+def fetch_nasa_day_photos(nasa_token, number_images):
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
     payload = {'api_key': nasa_token, 'count': 7}
     response = requests.get(nasa_api_url, params=payload)
