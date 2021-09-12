@@ -7,7 +7,7 @@ from fetch_image import save_image
 
 def fetch_nasa_day_photos(nasa_token, number_images):
     nasa_api_url = 'https://api.nasa.gov/planetary/apod'
-    payload = {'api_key': nasa_token, 'count': 7}
+    payload = {'api_key': nasa_token, 'count': number_images}
     response = requests.get(nasa_api_url, params=payload)
     response.raise_for_status()
     nasa_images_links = []
