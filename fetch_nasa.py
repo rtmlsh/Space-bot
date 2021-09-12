@@ -21,15 +21,15 @@ def fetch_epic_photos(nasa_token, number_images):
     payload = {'api_key': nasa_token}
     response = requests.get(nasa_epic_api_url, params=payload)
     response.raise_for_status()
-    epic_api_data = response.json()
-    epic_photo_data = {}
+    epic_api_response = response.json()
+    epic_photo_links = {}
     for num in range(number_images):
-        date = datetime.datetime.fromisoformat(epic_api_data[num]['date'])\
+        date = datetime.datetime.fromisoformat(epic_api_response[num]['date'])\
             .strftime('%Y/%m/%d')
-        title = epic_api_data[num]['image']
-        epic_photo_data[title] = 'https://api.nasa.gov/EPIC/archive/natural/' \
+        title = epic_api_response[num]['image']
+        epic_photo_links[title] = 'https://api.nasa.gov/EPIC/archive/natural/' \
                                  f'{date}/png/{title}.png'
-    return epic_photo_data, payload
+    return epic_photo_links, payload
 
 
 def get_file_extension(img_url):
