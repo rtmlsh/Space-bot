@@ -34,7 +34,7 @@ def fetch_epic_photos(nasa_token, number_images):
 
 def get_file_extension(img_url):
     image_path = urlparse(img_url)
-    image_extension = os.path.splitext(os.path.split(image_path.path)[-1])[-1]
+    image_extension = os.path.splitext(image_path.path)[-1]
     return image_extension
 
 
