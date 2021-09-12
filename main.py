@@ -39,7 +39,7 @@ if __name__ == '__main__':
         nasa_images_links=fetch_nasa_day_photos(nasa_token, number_images=6)
     )
     save_epic_photos(
-        epic_photo_data=fetch_epic_photos(nasa_token, number_images=6)
+        nasa_token, epic_photo_links=fetch_epic_photos(nasa_token, number_images=6)
     )
 
     bot = telegram.Bot(token=telegram_token)

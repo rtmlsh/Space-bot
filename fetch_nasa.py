@@ -30,8 +30,8 @@ def fetch_epic_photos(nasa_token, number_images):
             .strftime('%Y/%m/%d')
         title = epic_api_response[num]['image']
         epic_photo_links[title] = 'https://api.nasa.gov/EPIC/archive/natural/' \
-                                 f'{date}/png/{title}.png'
-    return epic_photo_links, payload
+                                  f'{date}/png/{title}.png'
+    return epic_photo_links
 
 
 def get_file_extension(img_url):
@@ -46,8 +46,7 @@ def save_nasa_day_photos(nasa_images_links, path='images/'):
         save_image(nasa_link, path, filename)
 
 
-def save_epic_photos(epic_photo_data, path='images/'):
-    links, payload = epic_photo_data
-    for epic_title, epic_link in links.items():
+def save_epic_photos(nasa_token, epic_photo_links, path='images/'):
+    for epic_title, epic_link in epic_photo_links.items():
         filename = f'{epic_title}.png'
-        save_image(epic_link, path, filename, params=payload)
+        save_image(epic_link, path, filename, payload=nasa_token)
