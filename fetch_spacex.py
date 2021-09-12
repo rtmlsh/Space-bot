@@ -1,4 +1,5 @@
 import requests
+
 from fetch_image import save_image
 
 

@@ -1,15 +1,13 @@
 import argparse
-import time
 import os
+import time
+
 import telegram
 from dotenv import load_dotenv
-from fetch_nasa import fetch_nasa_day_photos, fetch_epic_photos,\
-    save_nasa_day_photos, save_epic_photos
+
+from fetch_nasa import (fetch_epic_photos, fetch_nasa_day_photos,
+                        save_epic_photos, save_nasa_day_photos)
 from fetch_spacex import fetch_spacex_launch, save_spacex_images
-
-
-def ensure_dir(path):
-    os.makedirs(path, exist_ok=False)
 
 
 def publish_on_channel(path):
@@ -29,7 +27,7 @@ if __name__ == '__main__':
     parser.parse_args()
 
     path = 'images/'
-    ensure_dir(path)
+    os.makedirs(path, exist_ok=False)
 
     load_dotenv()
     nasa_token = os.getenv('NASA_TOKEN')

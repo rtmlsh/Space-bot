@@ -1,7 +1,9 @@
-import requests
-import os
 import datetime
+import os
 from urllib.parse import urlparse
+
+import requests
+
 from fetch_image import save_image
 
 
