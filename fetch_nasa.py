@@ -13,8 +13,8 @@ def fetch_nasa_day_photos(nasa_token, number_images):
     response = requests.get(nasa_api_url, params=payload)
     response.raise_for_status()
     nasa_images_links = []
-    for num in range(number_images):
-        nasa_images_links.append(response.json()[num]["url"])
+    for image in response.json()[:number_images]:
+        nasa_images_links.append(image['url'])
     return nasa_images_links
 
 
@@ -23,13 +23,12 @@ def fetch_epic_photos(nasa_token, number_images):
     payload = {'api_key': nasa_token}
     response = requests.get(nasa_epic_api_url, params=payload)
     response.raise_for_status()
-    epic_api_response = response.json()
     epic_photo_links = {}
-    for num in range(number_images):
-        date = datetime.datetime.fromisoformat(epic_api_response[num]['date'])\
+    for image in response.json()[:number_images]:
+        date = datetime.datetime.fromisoformat(image['date'])\
             .strftime('%Y/%m/%d')
-        title = epic_api_response[num]['image']
-        epic_photo_links[title] = 'https://api.nasa.gov/EPIC/archive/natural/' \
+        title = image['image']
+        epic_photo_links[title] = 'https://api.nasa.gov/EPIC/archive/natural/'\
                                   f'{date}/png/{title}.png'
     return epic_photo_links
 
