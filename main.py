@@ -10,11 +10,11 @@ from fetch_nasa import (fetch_epic_photos, fetch_nasa_day_photos,
 from fetch_spacex import fetch_spacex_launch, save_spacex_images
 
 
-def publish_on_channel(path):
+def publish_on_channel(path, chat_id):
     while True:
         for root, dirs, files in os.walk(path):
             for filename in files:
-                time.sleep(86400)
+                time.sleep(Добав0)
                 with open(f'{path}{filename}', 'rb') as file:
                     bot.send_photo(chat_id=chat_id, photo=file)
 
@@ -43,4 +43,4 @@ if __name__ == '__main__':
     )
 
     bot = telegram.Bot(token=telegram_token)
-    publish_on_channel(path)
+    publish_on_channel(path, chat_id)
