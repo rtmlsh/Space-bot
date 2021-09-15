@@ -13,7 +13,7 @@ def fetch_nasa_day_photos(nasa_token, number_images):
     response = requests.get(nasa_api_url, params=payload)
     response.raise_for_status()
     nasa_images_links = []
-    for image in response.json()[:number_images]:
+    for image in response.json():
         nasa_images_links.append(image['url'])
     return nasa_images_links
 
@@ -48,4 +48,4 @@ def save_nasa_day_photos(nasa_images_links, path='images/'):
 def save_epic_photos(nasa_token, epic_photo_links, path='images/'):
     for epic_title, epic_link in epic_photo_links.items():
         filename = f'{epic_title}.png'
-        save_image(epic_link, path, filename, payload=nasa_token)
+        save_image(epic_link, path, filename, payload={'api_key': nasa_token})
